@@ -3,5 +3,33 @@
 }
 body {
 	height: 100%;
-	widows: 100%;
+	width: 100%;
+}
+
+#display-points {
+	position: absolute;
+	top: 0;
+	left:  0;
+	color: white;
+}
+#choose-char {
+	position: absolute;
+	top: 0;
+	right: 0;
+	color:  whitesmoke;
+	font-size: 50px;
+
+}
+#timer {
+	position: absolute;
+	color: white;
+}
+#level-up {
+	position: absolute;
+	top: 300px;
+	right: 450px;
+	text-align: center;
+	color: white;
+	display: none;
+
 }
