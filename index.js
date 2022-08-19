@@ -37,14 +37,14 @@ const tadpole = new Animal({
 	}
 });
 
-const croc = new Animal({
+const croc = new SwampCreature({
 	position: {
 		x: 550,
 		y: 600
 	},
 	width: 100,
 	height: 100,
-	color: 'darkgreen',
+	color: 'yellow',
 	velocity: {
 		x: 0,
 		y: 0
@@ -122,7 +122,7 @@ timerId = setTimeout(decreaseTimer, 1000)
 	if (timer === 0){
 		document.querySelector('#your-points').style.display = 'flex';
 		document.querySelector('#your-points').innerHTML = `You Scored ${tadpole.points} Points!`;
-		
+		tadpole.gameover = true;
 		setTimeout(()=> {
 			document.querySelector('#your-points').innerHTML = `Good Bye SwampMate!`;
 		}, 4000)
@@ -156,28 +156,44 @@ function setSpeed(velocity) {
 	}
 }
 
+function checkLevel() {
+	if (tadpole.levelone === true){
+		setSpeed(5)
+	} else if (tadpole.leveltwo === true) {
+		setSpeed(10)
+	} else if (tadpole.levelthree === true) {
+		setSpeed(15)
+	}
+}
+
 function checkPoints() {
+	checkLevel();
+
 		document.querySelector('#level-up').style.display = 'none';
 	if (tadpole.points >= 25 && tadpole.points < 26) {	
 		document.querySelector('#level-up').style.display = 'flex';
-		document.querySelector('#level-up').innerHTML = "You are now a frog!"
-	
-		}
-		else if (tadpole.points > 24 && tadpole.points <= 49) {
-		setSpeed(10)
+		document.querySelector('#level-up').innerHTML = "You are now a Young Frog!"
+		tadpole.levelone = false;
+		tadpole.leveltwo = true;
+		tadpole.prey = true;
 		} else if (tadpole.points >= 50 && tadpole.points < 51) {
 		document.querySelector('#level-up').style.display = 'flex';
-		document.querySelector('#level-up').innerHTML = "You are now a Croc!"
-	
-
-		} else if (tadpole.points >= 50) {
-			setSpeed(15)
+		document.querySelector('#level-up').innerHTML = "You are now a Toad!"
+		tadpole.leveltwo = false;
+		tadpole.levelthree = true;
 		}
 }
-
+ function ResetCanvas() {
+            c.clearRect(0, 0, canvas.width, canvas.height);
+        }
  function animate() {
  	checkPoints();
- 	window.requestAnimationFrame(animate)
+ 	document.querySelector('#tadpole-life').innerHTML = `Health = ${tadpole.life}`;
+ 	
+ 	
+ 		window.requestAnimationFrame(animate);	
+ 	
+ 	
  	c.fillStyle = 'black';
  	c.fillRect(0,0, canvas.width, canvas.height);
  	tadpole.update();
@@ -186,6 +202,24 @@ function checkPoints() {
  	fly.update();
  	redBeetle.update();
  	startline.update();
+ 	if (tadpole.prey === true) {
+ 		croc.update();
+ 	}
+  	if (tadpole.life === 0) {
+  		document.querySelector('#your-points').style.display = 'flex';
+		document.querySelector('#your-points').innerHTML = `You Scored ${tadpole.points} Points!`;
+ 		tadpole.clearScreen();
+
+		setTimeout(()=>{
+			location.reload();
+		}, 3000)
+ 	}
+ 	if (tadpole.gameover === true) {
+		
+ 		//break out of animation
+ 	}
+
+
  	// animalMovement(t);
 
  	// frog.velocity.y = -10;

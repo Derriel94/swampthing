@@ -41,3 +41,12 @@ body {
 	color: white;
 	display: none;
 }
+
+#tadpole-life {
+	position: absolute;
+	top: 0px;
+	right: 450px;
+	text-align: center;
+	color: white;
+	display: flex;
+}

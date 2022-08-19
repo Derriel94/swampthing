@@ -14,6 +14,9 @@ class Sprite {
 	update() {
 		this.draw();
 	}
+	clearScreen() {
+		c.clearRect(0,0,0,0);
+	}
 }
 
 
@@ -29,6 +32,13 @@ class Animal extends Sprite {
 		this.points = 0;
 		this.lastKey;
 		this.start;
+		this.levelone = true;
+		this.leveltwo = false;
+		this.levelthree = false;
+		this.prey = false;
+		this.life = 5;
+		this.gameover = false;
+		this.runAnimation === true;
 	}
 	draw(){
 		c.fillStyle = this.color;
@@ -55,6 +65,10 @@ class Animal extends Sprite {
 	 		this.position.y = 750;
 	 	}
 	}
+	clearScreen() {
+		c.clearRect(0,0,0,0);
+	}
+
 
 }
 
@@ -99,21 +113,6 @@ class bug extends Animal {
  		tadpole.points += 3;
  		document.querySelector('#display-points').innerHTML = tadpole.points
  		}
- 		//croc eats bug
- 		if (
- 			this.position.x > croc.position.x 
- 			&& 
- 			this.position.x < croc.position.x + croc.width
- 			&&
- 			this.position.y > croc.position.y
- 			&& 
- 			this.position.y < croc.position.y + croc.height
- 		) {
- 		this.position.x = getRandomX();
- 		this.position.y = getRandomY();
- 		croc.points += 1;
- 		document.querySelector('#display-points').innerHTML = croc.points
- 		}
 	}
 
 
@@ -147,6 +146,38 @@ class Bigbug extends bug {
  		document.querySelector('#display-points').innerHTML = tadpole.points
  		} else {
 
+ 		}
+	}
+
+}
+
+class SwampCreature extends Bigbug {
+	constructor({position, width, height, color, velocity}){
+		super({position, width, height, color, velocity})
+	}
+	draw(){
+		c.fillStyle = this.color;
+		c.fillRect(this.position.x, this.position.y, this.width, this.height)
+	}
+	update() {
+		this.draw();
+		//this is the 
+	    // this.position.y += this.velocity.y;
+	    // this.position.x += this.velocity.x;
+	    if (
+ 			this.position.x >= tadpole.position.x 
+ 			&& 
+ 			this.position.x < tadpole.position.x + tadpole.width
+ 			&&
+ 			this.position.y >= tadpole.position.y
+ 			&& 
+ 			this.position.y < tadpole.position.y + tadpole.height
+ 		) {
+ 		this.position.x = getRandomX();
+ 		this.position.y = getRandomY();
+ 		tadpole.points = tadpole.points -10;
+ 		tadpole.life = tadpole.life -1;
+ 		document.querySelector('#display-points').innerHTML = tadpole.points
  		}
 	}
 
