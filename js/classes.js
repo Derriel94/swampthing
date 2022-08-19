@@ -133,11 +133,11 @@ class Bigbug extends bug {
 	    // this.position.y += this.velocity.y;
 	    // this.position.x += this.velocity.x;
 	    if (
- 			this.position.x > tadpole.position.x 
+ 			this.position.x >= tadpole.position.x 
  			&& 
  			this.position.x < tadpole.position.x + tadpole.width
  			&&
- 			this.position.y > tadpole.position.y
+ 			this.position.y >= tadpole.position.y
  			&& 
  			this.position.y < tadpole.position.y + tadpole.height
  		) {

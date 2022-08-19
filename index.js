@@ -110,7 +110,7 @@ const keys = {
 		pressed: false
 	}
 }
-	let timer = 33
+	let timer = 99
 	let timerId
 const decreaseTimer = () => {
 
@@ -120,19 +120,17 @@ timerId = setTimeout(decreaseTimer, 1000)
 		document.querySelector('#timer').innerHTML = timer;
 	}
 	if (timer === 0){
-		if (tadpole.points <= 25) {
-			//end game
-			clearTimeout(timerId);
-	    document.querySelector('#level-up').style.display = 'flex';
-			document.querySelector('#level-up').innerHTML = 'You Evolved!'
-			//add to speed by5
-			//start points over
-			//add swamp createrue
-		} else if (tadpole.points === 50) {
+		document.querySelector('#your-points').style.display = 'flex';
+		document.querySelector('#your-points').innerHTML = `You Scored ${tadpole.points} Points!`;
+		
+		setTimeout(()=> {
+			document.querySelector('#your-points').innerHTML = `Good Bye SwampMate!`;
+		}, 4000)
 
-		} else if (tadpole.points === 75) {
-
-		}
+		setTimeout(()=>{
+			location.reload();
+		}, 5000)
+		
 	}
 
 }
@@ -144,8 +142,41 @@ timerId = setTimeout(decreaseTimer, 1000)
 // }
 decreaseTimer();
 
+function setSpeed(velocity) {
+
+
+	if (keys.ArrowUp.pressed && tadpole.lastKey ==='ArrowUp'){
+		tadpole.velocity.y = -velocity
+	} else if (keys.ArrowDown.pressed && tadpole.lastKey ==='ArrowDown') {
+		tadpole.velocity.y = velocity
+	} else if (keys.ArrowLeft.pressed && tadpole.lastKey ==='ArrowLeft') {
+		tadpole.velocity.x = -velocity
+	} else if (keys.ArrowRight.pressed && tadpole.lastKey ==='ArrowRight'){
+		tadpole.velocity.x = velocity
+	}
+}
+
+function checkPoints() {
+		document.querySelector('#level-up').style.display = 'none';
+	if (tadpole.points >= 25 && tadpole.points < 26) {	
+		document.querySelector('#level-up').style.display = 'flex';
+		document.querySelector('#level-up').innerHTML = "You are now a frog!"
+	
+		}
+		else if (tadpole.points > 24 && tadpole.points <= 49) {
+		setSpeed(10)
+		} else if (tadpole.points >= 50 && tadpole.points < 51) {
+		document.querySelector('#level-up').style.display = 'flex';
+		document.querySelector('#level-up').innerHTML = "You are now a Croc!"
+	
+
+		} else if (tadpole.points >= 50) {
+			setSpeed(15)
+		}
+}
 
  function animate() {
+ 	checkPoints();
  	window.requestAnimationFrame(animate)
  	c.fillStyle = 'black';
  	c.fillRect(0,0, canvas.width, canvas.height);
@@ -164,18 +195,12 @@ decreaseTimer();
  	// console.log(frog.position.x)
  	//FROG MOVEMENT I can not refactor this into a function,
  	//i think because of how i am referencing the objects
+ 	
+
  
  	tadpole.velocity.x = 0;
  	tadpole.velocity.y = 0;
- 	if (keys.ArrowUp.pressed && tadpole.lastKey ==='ArrowUp'){
-		tadpole.velocity.y = -5
-	} else if (keys.ArrowDown.pressed && tadpole.lastKey ==='ArrowDown') {
-		tadpole.velocity.y = 5
-	} else if (keys.ArrowLeft.pressed && tadpole.lastKey ==='ArrowLeft') {
-		tadpole.velocity.x = -5
-	} else if (keys.ArrowRight.pressed && tadpole.lastKey ==='ArrowRight'){
-		tadpole.velocity.x = 5
-	}
+ 	setSpeed(5);
 
 	//croc movement
 	croc.velocity.x = 0;
@@ -188,13 +213,6 @@ decreaseTimer();
 		croc.velocity.x = -10
 	} else if (keys.ArrowRight.pressed && croc.lastKey ==='ArrowRight'){
 		croc.velocity.x = 10
-	}
-
-if (tadpole.points >= 25) {
-			//end game
-	    document.querySelector('#level-up').style.display = 'flex';
-			document.querySelector('#level-up').innerHTML = 'You Evolved!';
-			timer = 33
 	}
  
 }
